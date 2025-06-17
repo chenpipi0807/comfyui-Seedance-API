@@ -2,6 +2,9 @@
 
 ComfyUI节点，用于调用豆包图生视频API（Seedance）。
 
+![image](https://github.com/user-attachments/assets/333af984-a162-40a2-bd04-854f83073d93)
+
+
 ## API密钥设置
 
 ### 豆包API密钥
