@@ -1,102 +1,15 @@
 {
   "id": "3bae3caf-e904-43ba-8ff2-36efe5b99472",
   "revision": 0,
-  "last_node_id": 320,
-  "last_link_id": 522,
+  "last_node_id": 385,
+  "last_link_id": 648,
   "nodes": [
     {
-      "id": 306,
-      "type": "easy showAnything",
-      "pos": [
-        -4324.896484375,
-        6748.916015625
-      ],
-      "size": [
-        351.29327392578125,
-        160.21832275390625
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "anything",
-          "shape": 7,
-          "type": "*",
-          "link": 506
-        }
-      ],
-      "outputs": [
-        {
-          "name": "output",
-          "type": "*",
-          "links": []
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfyui-easy-use",
-        "ver": "2986a014694fd27049c3f66d39e3f60904283f9b",
-        "Node name for S&R": "easy showAnything"
-      },
-      "widgets_values": [
-        "C:\\NEWCOMFYUI\\ComfyUI_windows_portable\\ComfyUI\\output\\seedance\\seedance_output_cgt-20250617201648-zmn88.mp4"
-      ]
-    },
-    {
-      "id": 308,
-      "type": "SeedanceGenerator",
-      "pos": [
-        -4784.87060546875,
-        6761.34765625
-      ],
-      "size": [
-        400,
-        252
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 507
-        },
-        {
-          "name": "end_frame_image",
-          "shape": 7,
-          "type": "IMAGE",
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "视频路径",
-          "type": "STRING",
-          "links": [
-            506
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SeedanceGenerator"
-      },
-      "widgets_values": [
-        "doubao-seedance-1-0-pro-250528",
-        "男人跳舞",
-        "480p",
-        "5s",
-        false,
-        139477327,
-        "randomize"
-      ]
-    },
-    {
-      "id": 313,
+      "id": 373,
       "type": "LoadImage",
       "pos": [
-        -5156.5380859375,
-        6759.88037109375
+        -4942.9384765625,
+        6708.21533203125
       ],
       "size": [
         270,
@@ -111,7 +24,7 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            507
+            640
           ]
         },
         {
@@ -126,37 +39,292 @@
         "Node name for S&R": "LoadImage"
       },
       "widgets_values": [
-        "pasted/image (311).png",
+        "pasted/image (323).png",
         "image"
       ]
+    },
+    {
+      "id": 380,
+      "type": "SeedanceGenerator",
+      "pos": [
+        -4553.4384765625,
+        6721.4619140625
+      ],
+      "size": [
+        400,
+        252
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 640
+        },
+        {
+          "name": "end_frame_image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "视频路径",
+          "type": "STRING",
+          "links": [
+            641
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SeedanceGenerator"
+      },
+      "widgets_values": [
+        "doubao-seedance-1-0-pro-250528",
+        "他说：“汤圆真好吃”",
+        "480p",
+        "5s",
+        false,
+        785040291,
+        "randomize"
+      ]
+    },
+    {
+      "id": 381,
+      "type": "easy showAnything",
+      "pos": [
+        -4071.488037109375,
+        6714.44482421875
+      ],
+      "size": [
+        445.7887878417969,
+        109.90546417236328
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "anything",
+          "shape": 7,
+          "type": "*",
+          "link": 641
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "*",
+          "links": [
+            647
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-easy-use",
+        "ver": "2986a014694fd27049c3f66d39e3f60904283f9b",
+        "Node name for S&R": "easy showAnything"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 383,
+      "type": "VHS_VideoCombine",
+      "pos": [
+        -3447.62109375,
+        6939.4501953125
+      ],
+      "size": [
+        383.3086853027344,
+        687.3087158203125
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 646
+        },
+        {
+          "name": "audio",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        },
+        {
+          "name": "meta_batch",
+          "shape": 7,
+          "type": "VHS_BatchManager",
+          "link": null
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "Filenames",
+          "type": "VHS_FILENAMES",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-videohelpersuite",
+        "ver": "a7ce59e381934733bfae03b1be029756d6ce936d",
+        "Node name for S&R": "VHS_VideoCombine"
+      },
+      "widgets_values": {
+        "frame_rate": 24,
+        "loop_count": 0,
+        "filename_prefix": "AnimateDiff",
+        "format": "video/h265-mp4",
+        "pix_fmt": "yuv420p10le",
+        "crf": 22,
+        "save_metadata": true,
+        "pingpong": false,
+        "save_output": true,
+        "videopreview": {
+          "hidden": false,
+          "paused": false,
+          "params": {
+            "filename": "AnimateDiff_00002.mp4",
+            "subfolder": "",
+            "type": "output",
+            "format": "video/h265-mp4",
+            "frame_rate": 24,
+            "workflow": "AnimateDiff_00002.png",
+            "fullpath": "C:\\NEWCOMFYUI\\ComfyUI_windows_portable\\ComfyUI\\output\\AnimateDiff_00002.mp4"
+          }
+        }
+      }
+    },
+    {
+      "id": 385,
+      "type": "VHS_LoadVideoPathPreview",
+      "pos": [
+        -4062,
+        6938.51220703125
+      ],
+      "size": [
+        431.22564697265625,
+        523.4194946289062
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "meta_batch",
+          "shape": 7,
+          "type": "VHS_BatchManager",
+          "link": null
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": null
+        },
+        {
+          "name": "video",
+          "type": "STRING",
+          "widget": {
+            "name": "video"
+          },
+          "link": 647
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            646
+          ]
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "links": null
+        },
+        {
+          "name": "video_info",
+          "type": "VHS_VIDEOINFO",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-videohelpersuite",
+        "ver": "a7ce59e381934733bfae03b1be029756d6ce936d",
+        "Node name for S&R": "VHS_LoadVideoPathPreview"
+      },
+      "widgets_values": {
+        "video": "",
+        "force_rate": 0,
+        "custom_width": 0,
+        "custom_height": 0,
+        "frame_load_cap": 0,
+        "skip_first_frames": 0,
+        "select_every_nth": 1,
+        "format": "AnimateDiff"
+      }
     }
   ],
   "links": [
     [
-      506,
-      308,
+      640,
+      373,
       0,
-      306,
+      380,
+      0,
+      "IMAGE"
+    ],
+    [
+      641,
+      380,
+      0,
+      381,
       0,
       "*"
     ],
     [
-      507,
-      313,
+      646,
+      385,
       0,
-      308,
+      383,
       0,
       "IMAGE"
+    ],
+    [
+      647,
+      381,
+      0,
+      385,
+      2,
+      "STRING"
     ]
   ],
   "groups": [],
   "config": {},
   "extra": {
     "ds": {
-      "scale": 1.7985878990921886,
+      "scale": 0.8954302432554978,
       "offset": [
-        5359.463037421094,
-        -6545.325970578986
+        5680.606378093397,
+        -6306.3641601639265
       ]
     },
     "frontendVersion": "1.21.7",
