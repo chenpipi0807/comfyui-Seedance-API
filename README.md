@@ -26,6 +26,9 @@ pro不支持720p， lite支持720p
 3. 运行节点，等待视频生成完成
 4. 输出的视频将保存在ComfyUI的output/seedance目录中
 
+## 预览视频
+可以用我写的分支版(https://github.com/chenpipi0807/ComfyUI-VideoHelperSuite)
+
 
 ## 备注
 相关权限自己去申请，主要是模型
