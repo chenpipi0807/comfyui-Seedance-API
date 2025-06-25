@@ -106,3 +106,59 @@ def get_image_url(image_path):
     
     # 返回本地路径作为后备，但这对API不起作用
     return f"file://{image_path}"
+
+def upload_audio_to_imgbb(audio_path):
+    """将音频文件上传至ImgBB并返回URL（ImgBB也支持音频文件）"""
+    api_key = load_imgbb_api_key()
+    if not api_key:
+        print("警告：未找到ImgBB API密钥或密钥无效。请在IMGBB-KEY.txt文件中设置密钥")
+        return None
+        
+    try:
+        with open(audio_path, "rb") as file:
+            audio_data = base64.b64encode(file.read()).decode("utf-8")
+            
+        payload = {
+            "key": api_key,
+            "image": audio_data,  # ImgBB uses 'image' parameter for all file types
+            "name": f"omnihuman_audio_{uuid.uuid4()}"
+        }
+        
+        response = requests.post(IMGBB_API_URL, data=payload)
+        response.raise_for_status()
+        
+        result = response.json()
+        if result.get("success"):
+            url = result.get("data", {}).get("url")
+            print(f"音频文件已上传至ImgBB: {url}")
+            return url
+        else:
+            print(f"上传音频文件出错: {result.get('error', {}).get('message')}")
+            return None
+            
+    except Exception as e:
+        print(f"上传音频文件至ImgBB出错: {e}")
+        return None
+
+def get_audio_url(audio_path):
+    """获取音频文件的公开访问URL"""
+    if not audio_path or not os.path.exists(audio_path):
+        return None
+        
+    # 尝试上传到ImgBB
+    url = upload_audio_to_imgbb(audio_path)
+    if url:
+        return url
+        
+    # 如果上传失败，警告用户
+    print("""
+    ====== 警告: 音频文件上传失败 ======
+    OmniHuman API 需要公开可访问的音频URL。
+    请确保:
+    1. 在IMGBB-KEY.txt文件中设置了有效的ImgBB API密钥
+    2. 检查网络连接
+    3. ImgBB服务是否正常运行
+    ================================
+    """)
+    
+    return None

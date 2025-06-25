@@ -95,7 +95,7 @@ class SeedanceGenerator:
                 "seed": ("INT", {"default": -1, "min": -1, "max": 2147483647}),
             },
             "optional": {
-                "end_frame_image": ("IMAGE", {"description": "尾帧图片"}),
+                "end_frame_image": ("IMAGE", {"description": "尾帧图片（可选）"}),
             }
         }
     
@@ -131,34 +131,17 @@ class SeedanceGenerator:
             {
                 "type": "text",
                 "text": formatted_prompt
+            },
+            {
+                "type": "image_url",
+                "image_url": {
+                    "url": first_frame_url
+                }
             }
         ]
         
-        # Add first frame image
-        first_frame_dict = {
-            "type": "image_url",
-            "image_url": {
-                "url": first_frame_url
-            }
-        }
-        
-        # 检查模型类型和尾帧
-        is_lite_model = "lite" in model.lower()
-        has_end_frame = end_frame_image is not None
-        
-        # 对于pro模型，如果提供了尾帧，忽略它并给出提示
-        if not is_lite_model and has_end_frame:
-            print(f"注意：{model} 为pro模型，不支持尾帧功能，将忽略尾帧图片")
-            has_end_frame = False
-        
-        # 对于lite模型，如果有尾帧，则为图片设置角色
-        if is_lite_model and has_end_frame:
-            first_frame_dict["role"] = "first_frame"
-        
-        content_list.append(first_frame_dict)
-        
-        # Add end frame if provided and supported
-        if is_lite_model and has_end_frame:
+        # Add end frame if provided
+        if end_frame_image is not None:
             end_frame_path = save_image_for_api(end_frame_image, f"seedance_end_frame_{uuid.uuid4()}.png")
             end_frame_url = get_image_url(end_frame_path)
             print(f"End frame URL: {end_frame_url}")
@@ -167,8 +150,7 @@ class SeedanceGenerator:
                 "type": "image_url",
                 "image_url": {
                     "url": end_frame_url
-                },
-                "role": "last_frame"
+                }
             })
         
         # Prepare request data
@@ -185,17 +167,8 @@ class SeedanceGenerator:
         # 4. Make API request
         try:
             print(f"Sending request to Seedance API: {formatted_prompt}")
-            print(f"Model: {model}")
-            print(f"Content items: {len(content_list)} (text + {len(content_list)-1} image(s))")
-            
             response = requests.post(API_URL, headers=headers, json=payload)
-            
-            # 检查响应状态
-            if response.status_code != 200:
-                print(f"API请求失败，状态码: {response.status_code}")
-                print(f"响应内容: {response.text}")
-                return (f"ERROR: API请求失败 (状态码: {response.status_code})",)
-            
+            response.raise_for_status()
             result = response.json()
             task_id = result.get("id")
             
@@ -212,10 +185,7 @@ class SeedanceGenerator:
             
             # 6. Download video
             output_path = os.path.join(SEEDANCE_OUTPUT_DIR, f"seedance_output_{task_id}.mp4")
-            success = self._download_video(video_url, output_path)
-            
-            if not success:
-                return ("ERROR: Failed to download video",)
+            self._download_video(video_url, output_path)
             
             print(f"Video downloaded to: {output_path}")
             return (output_path,)
@@ -242,7 +212,7 @@ class SeedanceGenerator:
                 status = result.get("status")
                 
                 # 只在状态变更时打印日志
-                if attempt == 0 or status != "processing" and status != "running" and status != "pending" and status != "queued":
+                if attempt == 0 or status != "processing" and status != "running" and status != "pending":
                     print(f"当前状态: {status}")
                 
                 if status == "succeeded":
@@ -265,7 +235,7 @@ class SeedanceGenerator:
                     reason = result.get("failure_reason", "未提供失败原因")
                     print(f"失败原因: {reason}")
                     return None
-                elif status == "processing" or status == "pending" or status == "running" or status == "queued":
+                elif status == "processing" or status == "pending" or status == "running":
                     progress = result.get("progress", 0)
                     print(f"处理中... 状态: {status}, 进度: {progress}%")
                 else:
